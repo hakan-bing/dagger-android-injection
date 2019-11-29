@@ -1,2 +1,2 @@
 # dagger-android-injection
-Dagger android injection with room and retrofit
+Android MVVM with dagger 2, room and retrofit
