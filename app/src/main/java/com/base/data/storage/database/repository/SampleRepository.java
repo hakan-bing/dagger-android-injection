@@ -1,7 +1,6 @@
 package com.base.data.storage.database.repository;
 
 import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
 
 import com.base.data.storage.database.DatabaseStorage;
 import com.base.data.storage.database.entity.SampleEntity;
@@ -14,7 +13,7 @@ public class SampleRepository {
     private final DatabaseStorage database;
     private final ExecutorService executorService;
 
-    public SampleRepository(@NonNull DatabaseStorage database, @NonNull ExecutorService executorService) {
+    public SampleRepository(DatabaseStorage database, ExecutorService executorService) {
         this.database = database;
         this.executorService = executorService;
     }

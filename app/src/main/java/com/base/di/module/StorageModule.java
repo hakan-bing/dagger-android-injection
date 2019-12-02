@@ -1,13 +1,15 @@
 package com.base.di.module;
 
 import android.app.Application;
-import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.base.BuildConfig;
 import com.base.data.storage.database.DatabaseStorage;
+import com.base.data.storage.database.repository.SampleRepository;
 import com.base.data.storage.shared.SharedStorage;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -26,7 +28,7 @@ public class StorageModule {
 
     @Singleton
     @Provides
-    SharedPreferences provideSharedPreferences(Context context, @Named("sharedPreferencesName") String name) {
+    SharedStorage provideSharedStorage(Context context, @Named("sharedPreferencesName") String name) {
         return new SharedStorage(context, name);
     }
 
@@ -39,7 +41,7 @@ public class StorageModule {
 
     @Singleton
     @Provides
-    RoomDatabase provideRoomDatabase(Context context, @Named("roomDatabaseName") String name) {
+    DatabaseStorage provideDatabaseStorage(Context context, @Named("roomDatabaseName") String name) {
         return DatabaseStorage.getInstance(context, name);
     }
 
@@ -48,5 +50,17 @@ public class StorageModule {
     @Named("roomDatabaseName")
     String provideRoomDatabaseName() {
         return BuildConfig.ROOM_DATABASE_NAME;
+    }
+
+    @Singleton
+    @Provides
+    ExecutorService provideExecutorService() {
+        return Executors.newSingleThreadExecutor();
+    }
+
+    @Singleton
+    @Provides
+    SampleRepository provideSampleRepository(DatabaseStorage databaseStorage, ExecutorService executorService) {
+        return new SampleRepository(databaseStorage, executorService);
     }
 }
